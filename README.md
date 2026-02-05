@@ -1,229 +1,315 @@
-# 🍅 Tomato Leaf Disease Classification
+# Image Classification - Rubbish Dataset
 
-[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow)](https://www.tensorflow.org/)
-[![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+Proyek klasifikasi gambar untuk dataset sampah (rubbish) menggunakan Deep Learning dengan TensorFlow/Keras. Proyek ini dibuat untuk memenuhi submission Dicoding Machine Learning dengan target akurasi **95%+**.
 
-Complete image classification project for **Dicoding Machine Learning Submission** - achieving **5-star rating** with 95%+ accuracy on tomato leaf disease detection.
+## 📋 Deskripsi
 
-## 📊 Project Overview
+Proyek ini mengimplementasikan model klasifikasi gambar untuk mengklasifikasikan 6 jenis sampah:
 
-This project implements a deep learning model to classify tomato leaf diseases using transfer learning and custom CNN layers. The model achieves **95%+ accuracy** on both training and validation sets.
+- Cardboard (Kardus)
+- Glass (Kaca)
+- Metal (Logam)
+- Organic (Organik)
+- Paper (Kertas)
+- Plastic (Plastik)
 
-### Dataset
+## 🎯 Fitur Utama
 
-- **Source**: [tomato-leaves-dataset](https://huggingface.co/datasets/artup1/tomato-leaves-dataset)
-- **Classes**: 8 (7 diseases + healthy)
-- **Total Images**: ~3,070 (augmented to 10,000+ during training)
-- **Split**: 80% Train, 10% Validation, 10% Test
+- ✅ **Dataset**: 23,066 gambar dari Hugging Face
+- ✅ **Akurasi Target**: 95%+
+- ✅ **Augmentasi Data**: Rotasi, zoom, flip, shift
+- ✅ **Transfer Learning**: MobileNetV2 (pre-trained ImageNet)
+- ✅ **Custom Callbacks**: AccuracyThresholdCallback, ReduceLROnPlateau
+- ✅ **Class Weights**: Menangani class imbalance
+- ✅ **Deployment**: 3 format (SavedModel, TF-Lite, TensorFlow.js)
+- ✅ **Visualisasi**: Confusion Matrix, Per-class Accuracy, Training History
 
-### Classes
+## 📊 Dataset
 
-1. Bacterial Spot
-2. Early Blight
-3. Late Blight
-4. Leaf Mold
-5. Septoria Leaf Spot
-6. Tomato Yellow Leaf Curl Virus
-7. Tomato Mosaic Virus
-8. Healthy
+**Source**: [Hugging Face - rubbish_augmented](https://huggingface.co/datasets/Jotadebeese/rubbish_augmented)
 
-## 🎯 Dicoding Criteria Checklist
+**Statistik**:
 
-| Criterion         | Requirement           | Status                         |
-| ----------------- | --------------------- | ------------------------------ |
-| **Dataset Size**  | 10,000+ images        | ✅ Via augmentation            |
-| **Classes**       | Minimum 3             | ✅ 8 classes                   |
-| **Split Ratio**   | 80/10/10              | ✅ Pre-split                   |
-| **Preprocessing** | Image augmentation    | ✅ Rotation, shift, zoom, flip |
-| **Model Type**    | Sequential            | ✅ Sequential API              |
-| **Layers**        | Conv2D + Pooling      | ✅ Explicit layers             |
-| **Accuracy**      | 95%+ (train & val)    | ✅ Custom callback             |
-| **Callback**      | Auto-stop at 95%      | ✅ AccuracyThresholdCallback   |
-| **Visualization** | Accuracy & Loss plots | ✅ Matplotlib plots            |
-| **Deployment**    | 3 formats             | ✅ SavedModel, TF-Lite, TFJS   |
-| **Inference**     | Working demo          | ✅ Image upload + prediction   |
+- Total Images: 23,066
+- Training: 18,450 (80%)
+- Validation: 2,304 (10%)
+- Test: 2,312 (10%)
+- Classes: 6
 
-## 🚀 Quick Start
+## 🛠️ Teknologi
 
-### Prerequisites
+- **Python**: 3.12+
+- **TensorFlow**: 2.19.0
+- **Keras**: (included in TensorFlow)
+- **MobileNetV2**: Transfer Learning
+- **Hugging Face Datasets**: Data loading
+- **scikit-learn**: Metrics & utilities
 
-```bash
-# Python 3.10+
-# TensorFlow 2.x
-```
+## 📦 Instalasi
 
-### Installation
-
-1. **Clone the repository**
+### 1. Clone Repository
 
 ```bash
-cd /home/radit/MachineLearning/Dicoding-Klasifikasi-Gambar
+git clone <repository-url>
+cd Dicoding-Klasifikasi-Gambar
 ```
 
-2. **Install dependencies**
+### 2. Install Dependencies
 
 ```bash
-pip install tensorflow pillow matplotlib numpy tensorflowjs
+pip install -r requirements.txt
 ```
 
-3. **Run the notebook**
+### 3. (Optional) GPU Setup
+
+Pastikan CUDA dan cuDNN terinstall untuk training dengan GPU.
+
+## 🚀 Cara Penggunaan
+
+### Training Model
+
+Jalankan notebook `notebook.ipynb` di Google Colab atau Jupyter:
 
 ```bash
 jupyter notebook notebook.ipynb
 ```
 
-Or use your preferred environment (VS Code, Google Colab, etc.)
+Atau jalankan di Google Colab:
 
-## 📁 Project Structure
+1. Upload `notebook.ipynb` ke Google Colab
+2. Jalankan semua cell secara berurutan
+3. Model akan otomatis didownload dan ditraining
+
+### Struktur Notebook
+
+1. **Import Libraries** - Import semua dependencies
+2. **Data Loading** - Download dataset dari Hugging Face
+3. **Configuration** - Setup hyperparameters
+4. **Dataset Analysis** - Analisis distribusi data
+5. **Data Augmentation** - Setup augmentasi data
+6. **Model Architecture** - Build model dengan MobileNetV2
+7. **Custom Callbacks** - AccuracyThresholdCallback
+8. **Class Weights** - Menangani class imbalance
+9. **Training** - Train model dengan callbacks
+10. **Evaluation** - Evaluasi pada test set
+11. **Confusion Matrix** - Visualisasi performa
+12. **Deployment** - Export 3 format model
+13. **Inference** - Demo prediksi dengan TF-Lite
+
+## 🏗️ Arsitektur Model
 
 ```
-Dicoding-Klasifikasi-Gambar/
-├── notebook.ipynb              # Main training notebook
-├── tomato-leaves-dataset/      # Dataset directory
-│   └── dataset-tomatoes/
-│       ├── train/              # Training images (80%)
-│       ├── validation/         # Validation images (10%)
-│       └── test/               # Test images (10%)
-├── model_deployment/           # SavedModel format (after training)
-├── model.tflite               # TF-Lite format (after training)
-├── tfjs_model/                # TensorFlow.js format (after training)
-├── training_history.png       # Training plots (after training)
-└── README.md                  # This file
+Input (224x224x3)
+    ↓
+MobileNetV2 (pre-trained, frozen)
+    ↓
+Conv2D (256 filters, 3x3) + ReLU
+    ↓
+MaxPooling2D (2x2)
+    ↓
+Conv2D (128 filters, 3x3) + ReLU
+    ↓
+MaxPooling2D (2x2)
+    ↓
+GlobalAveragePooling2D
+    ↓
+Dropout (0.5)
+    ↓
+Dense (256) + ReLU
+    ↓
+Dropout (0.3)
+    ↓
+Dense (6) + Softmax
 ```
 
-## 🧠 Model Architecture
+## 📈 Hyperparameters
+
+| Parameter          | Value                    |
+| ------------------ | ------------------------ |
+| Image Size         | 224x224                  |
+| Batch Size         | 64                       |
+| Epochs             | 50                       |
+| Learning Rate      | 1e-4                     |
+| Optimizer          | Adam                     |
+| Loss               | Categorical Crossentropy |
+| Accuracy Threshold | 95%                      |
+
+## 🎨 Data Augmentation
+
+- **Rotation**: ±20°
+- **Width Shift**: ±20%
+- **Height Shift**: ±20%
+- **Shear**: ±20%
+- **Zoom**: ±20%
+- **Horizontal Flip**: True
+- **Fill Mode**: Nearest
+
+## 📊 Callbacks
+
+1. **AccuracyThresholdCallback**: Stop training saat mencapai 95% accuracy
+2. **ModelCheckpoint**: Save best model berdasarkan val_accuracy
+3. **ReduceLROnPlateau**: Kurangi learning rate saat val_loss plateau
+4. **EarlyStopping**: Stop training jika tidak ada improvement
+
+## 💾 Model Deployment
+
+Model disimpan dalam 3 format:
+
+### 1. SavedModel
 
 ```
-Sequential Model:
-├── MobileNetV2 (ImageNet pre-trained, frozen)
-├── Conv2D (64 filters, 3x3) + ReLU
-├── MaxPooling2D (2x2)
-├── GlobalAveragePooling2D
-├── Dropout (0.4)
-├── Dense (128) + ReLU
-├── Dropout (0.3)
-└── Dense (8) + Softmax
+saved_model/
+├── saved_model.pb
+└── variables/
 ```
 
-**Key Features**:
+### 2. TF-Lite
 
-- Transfer learning with MobileNetV2
-- Custom Conv2D + MaxPooling layers (Dicoding requirement)
-- Dropout for regularization
-- Adam optimizer (lr=0.0001)
+```
+tflite/
+├── model.tflite
+└── labels.txt
+```
 
-## 📈 Training Strategy
+### 3. TensorFlow.js
 
-### Data Augmentation
+```
+tfjs_model/
+├── group1-shard1of1.bin
+└── model.json
+```
+
+## 📊 Hasil Evaluasi
+
+Model akan menghasilkan:
+
+- ✅ Training/Validation Accuracy & Loss plots
+- ✅ Confusion Matrix (counts & percentages)
+- ✅ Per-class Accuracy bar chart
+- ✅ Classification Report (Precision, Recall, F1-Score)
+- ✅ Test Set Evaluation
+
+## 🔍 Inference
+
+### Menggunakan TF-Lite Model
 
 ```python
-- Rescaling: 1./255
-- Rotation: ±40°
-- Width/Height shift: 20%
-- Shear: 20%
-- Zoom: 20%
-- Horizontal flip: True
-```
+import tensorflow as tf
+import numpy as np
+from PIL import Image
 
-### Callbacks
+# Load TF-Lite model
+interpreter = tf.lite.Interpreter(model_path='tflite/model.tflite')
+interpreter.allocate_tensors()
 
-1. **AccuracyThresholdCallback**: Auto-stop at 95% accuracy
-2. **ModelCheckpoint**: Save best model
-3. **EarlyStopping**: Prevent overfitting
-
-### Training Parameters
-
-- Batch size: 32
-- Epochs: 50 (early stopping enabled)
-- Steps per epoch: ~313 (10,000+ samples)
-- Optimizer: Adam (lr=0.0001)
-
-## 📊 Expected Results
-
-- **Training Accuracy**: 95%+
-- **Validation Accuracy**: 95%+
-- **Test Accuracy**: 95%+
-- **Training Time**: 15-30 minutes (CPU)
-
-## 🎨 Notebook Sections
-
-1. **Import Libraries** - Setup environment
-2. **Configuration** - Set parameters and paths
-3. **Dataset Analysis** - Explore data distribution
-4. **Data Augmentation** - Create generators
-5. **Model Architecture** - Build Sequential model
-6. **Custom Callback** - Implement auto-stop
-7. **Training** - Train with callbacks
-8. **Visualization** - Plot accuracy & loss
-9. **Evaluation** - Test set performance
-10. **Deployment** - Export 3 formats
-11. **Inference** - Predict new images
-12. **Summary** - Criteria checklist
-
-## 🔧 Deployment Formats
-
-### 1. SavedModel (TensorFlow)
-
-```python
-model.save('model_deployment')
-```
-
-### 2. TF-Lite (Mobile/Edge)
-
-```python
-converter = tf.lite.TFLiteConverter.from_saved_model('model_deployment')
-tflite_model = converter.convert()
-```
-
-### 3. TensorFlow.js (Web)
-
-```bash
-tensorflowjs_converter --input_format=keras_saved_model \
-    model_deployment tfjs_model
-```
-
-## 🎯 Inference Example
-
-```python
-# Load image
-img = Image.open('test_image.jpg')
-
-# Preprocess
-img_resized = img.resize((224, 224))
-img_array = np.array(img_resized) / 255.0
-img_batch = np.expand_dims(img_array, axis=0)
+# Load labels
+with open('tflite/labels.txt', 'r') as f:
+    labels = [line.strip() for line in f.readlines()]
 
 # Predict
-predictions = model.predict(img_batch)
-predicted_class = class_names[np.argmax(predictions)]
+img = Image.open('test_image.jpg').resize((224, 224))
+img_array = np.array(img, dtype=np.float32) / 255.0
+img_array = np.expand_dims(img_array, axis=0)
+
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+interpreter.set_tensor(input_details[0]['index'], img_array)
+interpreter.invoke()
+
+predictions = interpreter.get_tensor(output_details[0]['index'])[0]
+predicted_class = labels[np.argmax(predictions)]
 confidence = np.max(predictions) * 100
 
 print(f"Predicted: {predicted_class} ({confidence:.2f}%)")
 ```
 
-## 📝 Notes
+## 📁 Struktur Project
 
-- **Dataset Size**: Original dataset has ~3,070 images, but aggressive augmentation creates 10,000+ unique samples per epoch, meeting the Dicoding requirement.
-- **Transfer Learning**: Using MobileNetV2 significantly improves accuracy while maintaining the Sequential + Conv2D/Pooling requirement.
-- **Reproducibility**: Set `SEED=67` for consistent results.
+```
+Dicoding-Klasifikasi-Gambar/
+├── notebook.ipynb              # Main notebook
+├── README.md                   # Dokumentasi
+├── requirements.txt            # Dependencies
+├── .gitignore                 # Git ignore file
+├── dataset_final/             # Dataset (auto-downloaded)
+│   ├── train/
+│   ├── val/
+│   └── test/
+├── saved_model/               # SavedModel format
+├── tflite/                    # TF-Lite format
+│   ├── model.tflite
+│   └── labels.txt
+├── tfjs_model/                # TensorFlow.js format
+├── best_model.keras           # Best model checkpoint
+├── training_history.png       # Training plots
+├── confusion_matrix.png       # Confusion matrix
+└── per_class_accuracy.png     # Per-class accuracy
+```
 
-## 🏆 Expected Score
+## 🎓 Kriteria Dicoding
 
-**⭐⭐⭐⭐⭐ (5 Stars)**
+Proyek ini memenuhi semua kriteria submission Dicoding:
 
-All Dicoding criteria are systematically addressed with professional implementation, comprehensive documentation, and working demonstrations.
+- ✅ Dataset minimal 1000 gambar (23,066 ✓)
+- ✅ Akurasi minimal 85% (Target: 95%+ ✓)
+- ✅ Menggunakan Sequential Model ✓
+- ✅ Menggunakan Conv2D & MaxPooling2D ✓
+- ✅ Custom Callback untuk stop di 95% ✓
+- ✅ Augmentasi data ✓
+- ✅ Deployment 3 format ✓
+- ✅ Visualisasi training history ✓
+- ✅ Inference demonstration ✓
+
+## 🐛 Troubleshooting
+
+### TensorFlow.js Conversion Error
+
+Jika terjadi error saat konversi TensorFlow.js:
+
+```bash
+pip install tensorflowjs==4.20.0 packaging==23.2
+```
+
+### GPU Not Detected
+
+```bash
+# Check GPU
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+
+# Install CUDA & cuDNN sesuai TensorFlow version
+```
+
+### Dataset Download Error
+
+Jika download otomatis gagal, download manual dari:
+https://huggingface.co/datasets/Jotadebeese/rubbish_augmented
+
+## 📝 License
+
+MIT License
+
+## 👨‍💻 Author
+
+**Radit Firansah**
+
+- GitHub: [@raditfiransah](https://github.com/raditfiransah)
+- Dicoding: Radit Firansah
+
+## 🙏 Acknowledgments
+
+- Dataset: [Jotadebeese/rubbish_augmented](https://huggingface.co/datasets/Jotadebeese/rubbish_augmented)
+- Dicoding Indonesia
+- TensorFlow & Keras Team
+- MobileNetV2 Architecture
 
 ## 📚 References
 
-- [TensorFlow Documentation](https://www.tensorflow.org/)
-- [MobileNetV2 Paper](https://arxiv.org/abs/1801.04381)
-- [Tomato Leaves Dataset](https://huggingface.co/datasets/artup1/tomato-leaves-dataset)
-
-## 📄 License
-
-MIT License - Feel free to use this project for learning purposes.
+1. [MobileNetV2 Paper](https://arxiv.org/abs/1801.04381)
+2. [TensorFlow Documentation](https://www.tensorflow.org/)
+3. [Keras Documentation](https://keras.io/)
+4. [Dicoding Deep Learning Path](https://www.dicoding.com/)
 
 ---
 
-**Created for Dicoding Machine Learning Submission** 🚀
+**Note**: Proyek ini dibuat untuk submission Dicoding Machine Learning. Model mencapai akurasi 95%+ pada test set dengan menggunakan transfer learning dan data augmentation.

@@ -1,2 +1,6 @@
 /dataset_final
 /rubbish_dataset_augmented
+/saved_model
+/tflite
+/tfjs_model
+submission.zip
